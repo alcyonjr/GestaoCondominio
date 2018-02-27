@@ -3,8 +3,6 @@ using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GestaoCondominio.Repositorio.DAO
 {
@@ -20,12 +18,12 @@ namespace GestaoCondominio.Repositorio.DAO
                     {
                         session.Save(entidade);
                         transacao.Commit();
-                    } catch (Exception ex)
+                    } catch (Exception)
                     {
                         if (!transacao.WasCommitted)
                             transacao.Rollback();
 
-                        throw new Exception();
+                        throw;
                     }
                     
                 }
@@ -43,12 +41,12 @@ namespace GestaoCondominio.Repositorio.DAO
                         session.Update(entidade);
                         transacao.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         if (!transacao.WasCommitted)
                             transacao.Rollback();
 
-                        throw new Exception();
+                        throw;
                     }
 
                 }
@@ -63,11 +61,11 @@ namespace GestaoCondominio.Repositorio.DAO
             }
         }
 
-        public IList<T> consultar()
+        public IList<T> Consultar()
         {
             using (ISession session = FluentSessionFactory.AbrirSession())
             {
-                return (from e in session.Query<T>() select e).ToList();
+                return session.Query<T>().ToList();
             }
         }
 
@@ -82,14 +80,13 @@ namespace GestaoCondominio.Repositorio.DAO
                         session.Delete(entidade);
                         transacao.Commit();
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         if (!transacao.WasCommitted)
                             transacao.Rollback();
 
-                        throw new Exception();
+                        throw;
                     }
-
                 }
             }
         }       
