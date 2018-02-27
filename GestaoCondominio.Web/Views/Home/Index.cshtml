@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/fontawesome")
+</head>
+<body ng-app="gestaoCondominioApp">
+    <div ng-view />
+</body>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/angular")
+@Scripts.Render("~/bundles/app")
+</html>

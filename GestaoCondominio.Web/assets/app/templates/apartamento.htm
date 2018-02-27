@@ -1,0 +1,150 @@
+﻿<div class="sidebar" data-color="azure" data-image="~/assets/img/sidebar.jpg">
+    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
+
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a class="simple-text">
+                Gestão de Condomínio
+            </a>
+        </div>
+        <ul class="nav">
+            <li class="active">
+                <a href="#!/apartamento">
+                    <p>Apartamentos</p>
+                </a>
+            </li>
+            <li>
+                <a href="#!/morador">
+                    <p>Moradores</p>
+                </a>
+            </li>
+            <li >
+                <a href="#!/usuario">
+                    <p>Usuários</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="main-panel">
+    <nav class="navbar navbar-default navbar-fixed">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Apartamento</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a data-toggle="modal" data-target="#modalCadastroApartamento">
+                            <i class="fa fa-plus-circle"></i>
+                            <p class="hidden-lg hidden-md">Cadastrar Apartamento</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="fa fa-search"></i>
+                            <p class="hidden-lg hidden-md">Search</p>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" ng-controller="LoginController">
+                    <li>
+                        <a ng-click="logout()">
+                            <p>Sair <i class="fa fa-sign-out" aria-hidden="true"></i></p>
+                        </a>
+                    </li>
+                    <li class="separator hidden-lg"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Apartamentos</h4>
+                            <p class="category">Listagem de todos os apartamentos</p>
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <th>Nome</th>
+                                <th>Numero</th>
+                                <th>Bloco</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="apartamento in apartamentos">
+                                        <td>{{apartamento.nome}}</td>
+                                        <td>{{apartamento.numero}}</td>
+                                        <td>{{apartamento.bloco}}</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs" ng-click="excluirSelecionado(apartamento)">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCadastroApartamento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Cadastro Apartamento</h4>
+                    </div>
+                    <div class="content">
+                        <form name="formCadastroApartamento" novalidate>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nome</label>
+                                        <input type="text" class="form-control" placeholder="Digite o nome do apartamento" ng-model="novoApartamento.nome" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Número</label>
+                                        <input type="text" class="form-control" placeholder="Digite o número do apartamento" ng-model="novoApartamento.numero" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Bloco</label>
+                                        <input type="text" class="form-control" placeholder="Digite o bloco do apartamento" ng-model="novoApartamento.bloco" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info btn-fill btn-block" ng-click="cadastrar()" ng-disabled="formCadastroApartamento.$invalid">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+

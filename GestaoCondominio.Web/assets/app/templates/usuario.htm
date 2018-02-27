@@ -1,0 +1,135 @@
+﻿<div class="sidebar" data-color="azure" data-image="~/assets/img/sidebar.jpg">
+    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
+
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a class="simple-text">         
+                Gestão de Condomínio
+            </a>
+        </div>
+        <ul class="nav">
+            <li >
+                <a href="#!/apartamento">
+                    <p>Apartamentos</p>
+                </a>
+            </li>
+            <li>
+                <a href="#!/morador">
+                    <p>Moradores</p>
+                </a>
+            </li>
+            <li class="active">
+                <a href="#!/usuario">
+                    <p>Usuários</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="main-panel">
+    <nav class="navbar navbar-default navbar-fixed">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Usuário</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a data-toggle="modal" data-target="#modalCadastroUsuario">
+                            <i class="fa fa-plus-circle"></i>
+                            <p class="hidden-lg hidden-md">Cadastrar Usuário</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="fa fa-search"></i>
+                            <p class="hidden-lg hidden-md">Search</p>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">
+                            <p>Sair <i class="fa fa-sign-out" aria-hidden="true"></i></p>
+                        </a>
+                    </li>
+                    <li class="separator hidden-lg"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Usuários</h4>
+                            <p class="category">Listagem de todos os usuários</p>
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <th>Login</th>                                
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="usuario in usuarios">
+                                        <td>{{usuario.login}}</td>                                        
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs" ng-click="excluirSelecionado(usuario)">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCadastroUsuario" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Cadastro Usuario</h4>
+                    </div>
+                    <div class="content">
+                        <form name="formCadastroUsuario" novalidate>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Login</label>
+                                        <input type="text" class="form-control" placeholder="Digite o login de cadastros" ng-model="novoUsuario.login" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Login</label>
+                                        <input type="password" class="form-control" placeholder="Digite a senha do login" ng-model="novoUsuario.senha" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info btn-fill btn-block" ng-click="cadastrar()" ng-disabled="formCadastroUsuario.$invalid">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+</div>

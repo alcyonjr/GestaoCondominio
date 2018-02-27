@@ -1,0 +1,187 @@
+﻿<div class="sidebar" data-color="azure" data-image="~/assets/img/sidebar.jpg">
+    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
+
+    <div class="sidebar-wrapper">
+        <div class="logo">
+            <a class="simple-text">
+                Gestão de Condomínio
+            </a>
+        </div>
+        <ul class="nav">
+            <li>
+                <a href="#!/apartamento">
+                    <p>Apartamentos</p>
+                </a>
+            </li>
+            <li class="active">
+                <a href="#!/morador">
+                    <p>Moradores</p>
+                </a>
+            </li>
+            <li >
+                <a href="#!/usuario">
+                    <p>Usuários</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="main-panel">
+    <nav class="navbar navbar-default navbar-fixed">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Morador</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a data-toggle="modal" data-target="#modalCadastroMorador">
+                            <i class="fa fa-plus-circle"></i>
+                            <p class="hidden-lg hidden-md">Cadastrar Morador</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="fa fa-search"></i>
+                            <p class="hidden-lg hidden-md">Search</p>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#">
+                            <p>Sair <i class="fa fa-sign-out" aria-hidden="true"></i></p>
+                        </a>
+                    </li>
+                    <li class="separator hidden-lg"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Moradores</h4>
+                            <p class="category">Listagem de todos os moradores</p>
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Data de Nascimento</th>
+                                <th>Telefone</th>
+                                <th>E-mail</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="morador in moradores">
+                                        <td>{{morador.nome}}</td>
+                                        <td>{{morador.cpf}}</td>
+                                        <td>{{morador.dataNascimento | date:'dd/MM/yyyy'}}</td>
+                                        <td>{{morador.telefone}}</td>
+                                        <td>{{morador.email}}</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs" ng-click="excluirSelecionado(morador)">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCadastroMorador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Cadastro Morador</h4>
+                    </div>
+                    <div class="content">
+                        <form name="formCadastroMorador" novalidate>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nome Completo</label>
+                                        <input type="text" class="form-control" placeholder="Digite seu nome completo" ng-model="novoMorador.nome" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Data de Nascimento</label>
+                                        <input type="date" class="form-control" placeholder="Digite a data de seu nascimento" ng-model="novoMorador.dataNascimento" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Telefone</label>
+                                        <input type="number" class="form-control" placeholder="Digite o número de seu telefone" ng-model="novoMorador.telefone" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>CPF</label>
+                                        <input type="number" s class="form-control" placeholder="Digite o número de seu CPF" ng-model="novoMorador.cpf" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>E-mail</label>
+                                        <input type="email" class="form-control" placeholder="Digite seu e-mail" ng-model="novoMorador.email" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">                                        
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" ng-model="novoMorador.responsavel">  responsável pelo apartamento
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Apartamento</label>
+                                        <select multiple class="form-control" ng-options="apartamento.nome for apartamento in apartamentos" ng-model="apartamentoSeleciondo">
+                                            <option value="" disabled selected>Selecione um apartamento</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info btn-fill btn-block" ng-click="cadastrar()" ng-disabled="formCadastroMorador.$invalid">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+</div>
