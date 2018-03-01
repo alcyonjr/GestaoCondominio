@@ -33,7 +33,7 @@ namespace GestaoCondominio.Servico
             if (moradorReposiorio == null)
                 throw new ApplicationException("Morador não localizado");
 
-            repositorio.Inserir(morador);
+            repositorio.Alterar(morador);
         }
 
         public void Excluir(Morador morador)
