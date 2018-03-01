@@ -15,7 +15,7 @@ namespace GestaoCondominio.Repositorio.Infra
         private static ISessionFactory session;        
         private static String HOST = "localhost";
         private static String USER = "root";
-        private static String PASSWORD = "8{?*3*$[";
+        private static String PASSWORD = "****";
         private static String DATABASE = "gestao_condominio";
 
         public static ISessionFactory CriarSession()
