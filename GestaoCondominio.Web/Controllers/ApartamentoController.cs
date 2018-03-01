@@ -1,5 +1,5 @@
 ﻿using GestaoCondominio.Dominio;
-using GestaoCondominio.Repositorio.DAO;
+using GestaoCondominio.RegrasNegocio;
 using GestaoCondominio.Web.Filters;
 using System;
 using System.Collections.Generic;
@@ -11,20 +11,25 @@ namespace GestaoCondominio.Web.Controllers
 {
     [AuthorizationAttribute]
     public class ApartamentoController : ApiController
-    {
-        private readonly ApartamentoRepositorio _repositorio = new ApartamentoRepositorio();
+    {        
+        private readonly ApartamentoServico apartamentoService = new ApartamentoServico();
 
         [HttpGet]
         public IList<Apartamento> Consultar()
         {
-            IList<Apartamento> ap = _repositorio.Consultar();
-            return ap;
+            return apartamentoService.Consultar();
         }
 
         [HttpPost]
         public void Cadastrar(Apartamento novoApartamento)
         {
-            _repositorio.Inserir(novoApartamento);
+            apartamentoService.Inserir(novoApartamento);
+        }
+
+        [HttpPut]
+        public void Atualizar(Apartamento apartamento)
+        {
+            apartamentoService.Atualizar(apartamento);
         }
 
         [HttpDelete]
@@ -32,7 +37,7 @@ namespace GestaoCondominio.Web.Controllers
         {
             Apartamento apartamento = new Apartamento();
             apartamento.id = Convert.ToInt32(id);
-            _repositorio.Excluir(apartamento);
+            apartamentoService.Excluir(apartamento);
             return new HttpResponseMessage(HttpStatusCode.OK); ;
         }
     }

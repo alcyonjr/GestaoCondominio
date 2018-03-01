@@ -1,6 +1,6 @@
-﻿﻿angular.module('gestaoCondominioApp').controller('LoginController', function ($scope, LoginService, $location, LoginService) {                     
+﻿﻿angular.module('gestaoCondominioApp').controller('LoginController', function ($scope, $location, UsuarioService) {                     
 
-     if (LoginService.Jwt != undefined) {
+     if (UsuarioService.Jwt != undefined) {
          $location.path('/apartamento');
      }
 
@@ -12,29 +12,24 @@
      $scope.carregando = false;
 
      $scope.autenticar = function () {
-         $scope.carregando = true;
-
-        LoginService.autenticar(
+        $scope.carregando = true;
+        UsuarioService.autenticar(
         {
             Login: $scope.usuario.login,
             Senha: $scope.usuario.senha
-        })
-        .then(function (resposta) {
-            LoginService.Jwt = resposta.data.JWT;
-            LoginService.Usuario = $scope.usuario.Login;
+        }).then(function (resposta) {
+            UsuarioService.Jwt = resposta.data.JWT;
+            UsuarioService.Usuario = $scope.usuario.Login;
             localStorage['Jwt'] = resposta.data.JWT;
             localStorage['Usuario'] = $scope.usuario.login;
             $location.path('/home');
-        }, function (respostaError) {
-            alert("Usuário ou senha incorreto. ");
-        })
-        .finally(function () {
+        }).finally(function () {
             $scope.carregando = false;
         });
      };
 
      $scope.logout = function () {
-         LoginService.desconectar();
+         UsuarioService.desconectar();
          $location.path('/login');
      }
 });

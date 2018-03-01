@@ -11,7 +11,6 @@ namespace GestaoCondominio.Dominio
         public virtual int cpf { get; set; }
         public virtual String email { get; set; }
         public virtual Boolean responsavel { get; set; }
-
         public virtual Apartamento apartamento { get; set; }
 
     }

@@ -12,25 +12,25 @@ namespace GestaoCondominio.Repositorio.Infra
 {
     public class FluentSessionFactory
     {
-        private static ISessionFactory _session;        
-        private static String _host = "localhost";
-        private static String _user = "root";
-        private static String _password = "8{?*3*$[";
-        private static String _database = "gestao_condominio";
+        private static ISessionFactory session;        
+        private static String HOST = "localhost";
+        private static String USER = "root";
+        private static String PASSWORD = "8{?*3*$[";
+        private static String DATABASE = "gestao_condominio";
 
         public static ISessionFactory CriarSession()
         {
-            if (_session != null)
-                return _session;
+            if (session != null)
+                return session;
 
             IPersistenceConfigurer configDB = MySQLConfiguration.Standard.ConnectionString(
-                x => x.Server(_host).Username(_user).Password(_password).Database(_database));
+                x => x.Server(HOST).Username(USER).Password(PASSWORD).Database(DATABASE));
             var configMap = Fluently.Configure().Database(configDB).Mappings(
                 c => c.FluentMappings.AddFromAssemblyOf<Mapping.ApartamentoMap>()
                 );
-            _session = configMap.BuildSessionFactory();
+            session = configMap.BuildSessionFactory();
 
-            return _session;
+            return session;
         }
 
         public static ISession AbrirSession()

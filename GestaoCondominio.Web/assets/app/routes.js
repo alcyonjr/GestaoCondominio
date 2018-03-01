@@ -2,6 +2,7 @@
 
     var viewBase = PropriedadesConstants.Endpoint + 'assets/app/templates/';    
     $httpProvider.interceptors.push('LoginInterceptor');
+    $httpProvider.interceptors.push('ExceptionInterceptor');
 
     $routeProvider.when('/apartamento', {
         templateUrl: viewBase + 'apartamento.htm',

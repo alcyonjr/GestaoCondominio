@@ -23,27 +23,31 @@ namespace GestaoCondominio.Web
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
             "~/assets/js/angular.min.js",
             "~/assets/js/angular-resource.min.js",
-            "~/assets/js/angular-route.min.js"));
+            "~/assets/js/angular-route.min.js",
+            "~/assets/js/ui-bootstrap-tpls-2.5.0.min.js",
+            "~/assets/js/ngToast.js",
+            "~/assets/js/angular-sanitize.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                 "~/assets/app/main.js",
                 "~/assets/app/routes.js",
                 "~/assets/app/propriedades.js",
                 "~/assets/app/interceptor/login.interceptor.js",
+                "~/assets/app/interceptor/exception.interceptor.js",
                 "~/assets/app/services/apartamento.service.js",
                 "~/assets/app/services/morador.service.js",
-                "~/assets/app/services/login.service.js",
                 "~/assets/app/services/usuario.service.js",
                 "~/assets/app/controllers/apartamento.controller.js",                
                 "~/assets/app/controllers/morador.controller.js",
                 "~/assets/app/controllers/login.controller.js",
-                "~/assets/app/controllers/usuario.controller.js"
+                "~/assets/app/controllers/usuario.controller.js"                
             ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/assets/css/bootstrap.css",
                 "~/assets/css/light-bootstrap-dashboard.css",
-                "~/assets/css/site.css"));
+                "~/assets/css/site.css",
+                "~/assets/css/ngToast.css"));
 
             bundles.Add(new StyleBundle("~/Content/fontawesome").Include(
                       "~/assets/css/font-awesome/css/font-awesome.css", new CssRewriteUrlTransform()));

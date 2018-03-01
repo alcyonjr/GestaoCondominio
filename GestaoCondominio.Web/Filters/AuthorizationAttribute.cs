@@ -1,4 +1,5 @@
-﻿using Jose;
+﻿using GestaoCondominio.Dominio;
+using Jose;
 using System;
 using System.Configuration;
 using System.Net;
@@ -31,7 +32,7 @@ namespace GestaoCondominio.Web.Filters
                 String accessToken = JWT.Decode(authorization, secretKey, JwsAlgorithm.HS512);
 
                 JavaScriptSerializer jss = new JavaScriptSerializer();
-                Jwt jwt = jss.Deserialize<Jwt>(accessToken);                
+                Token jwt = jss.Deserialize<Token>(accessToken);                
 
                 if (jwt.exp < (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds)
                 {

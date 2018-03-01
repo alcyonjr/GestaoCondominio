@@ -1,5 +1,6 @@
 ﻿using GestaoCondominio.Dominio;
 using GestaoCondominio.Repositorio.DAO;
+using GestaoCondominio.Servico;
 using GestaoCondominio.Web.Filters;
 using System;
 using System.Collections.Generic;
@@ -11,19 +12,34 @@ namespace GestaoCondominio.Web.Controllers
 {
     [AuthorizationAttribute]
     public class MoradorController : ApiController
-    {
-        private readonly MoradorRepositorio _repositorio = new MoradorRepositorio();
+    {        
+        private readonly MoradorServico moradorServico = new MoradorServico();
 
         [HttpGet]
         public IList<Morador> Consultar()
+        {            
+            return moradorServico.Consultar();
+        }
+
+        [HttpGet]
+        public IList<Morador> ListarPorApartamento(String idApartamento)
         {
-            return _repositorio .Consultar();
+            Morador morador = new Morador();
+            morador.apartamento = new Apartamento();
+            morador.apartamento.id = Convert.ToInt32(idApartamento);            
+            return moradorServico.ListarPorApartamento(morador);
         }
 
         [HttpPost]        
         public void Cadastrar(Morador novoMorador)
         {
-            _repositorio.Inserir(novoMorador);
+            moradorServico.Inserir(novoMorador);
+        }
+
+        [HttpPut]
+        public void Atualizar(Morador novoMorador)
+        {
+            moradorServico.Atualizar(novoMorador);
         }
 
         [HttpDelete]        
@@ -31,7 +47,7 @@ namespace GestaoCondominio.Web.Controllers
         {
             Morador morador = new Morador();
             morador.id = Convert.ToInt32(id);
-            _repositorio.Excluir(morador);
+            moradorServico.Excluir(morador);
             return new HttpResponseMessage(HttpStatusCode.OK); ;
         }        
     }

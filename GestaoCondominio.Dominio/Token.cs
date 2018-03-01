@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace GestaoCondominio.Web.Filters
+namespace GestaoCondominio.Dominio
 {
-    public class Jwt
+    public class Token
     {
         public String sub;
         public Int32 exp;

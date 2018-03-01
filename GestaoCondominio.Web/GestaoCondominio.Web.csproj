@@ -157,8 +157,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoradorController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Filters\ApiExceptionFilter.cs" />
     <Compile Include="Filters\AuthorizationAttribute.cs" />
-    <Compile Include="Filters\Jwt.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -172,11 +172,11 @@
     <Content Include="assets\app\img\sidebar.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\app\interceptor\exception.interceptor.js" />
     <Content Include="assets\app\interceptor\login.interceptor.js" />
     <Content Include="assets\app\propriedades.js" />
     <Content Include="assets\app\main.js" />
     <Content Include="assets\app\routes.js" />
-    <Content Include="assets\app\services\login.service.js" />
     <Content Include="assets\app\services\usuario.service.js" />
     <Content Include="assets\app\services\morador.service.js" />
     <Content Include="assets\app\services\apartamento.service.js" />
@@ -188,11 +188,15 @@
     <Content Include="assets\css\font-awesome\css\font-awesome.css" />
     <Content Include="assets\css\font-awesome\css\font-awesome.min.css" />
     <Content Include="assets\css\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\css\ngToast.css" />
     <Content Include="assets\js\angular-resource.min.js" />
     <Content Include="assets\js\angular-route.min.js" />
+    <Content Include="assets\js\angular-sanitize.js" />
     <Content Include="assets\js\angular.min.js" />
     <Content Include="assets\js\jquery-3.1.0.min.js" />
     <Content Include="assets\css\light-bootstrap-dashboard.css" />
+    <Content Include="assets\js\ngToast.js" />
+    <Content Include="assets\js\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="assets\css\Site.css" />
@@ -257,6 +261,10 @@
     <ProjectReference Include="..\GestaoCondominio.Dominio\GestaoCondominio.Dominio.csproj">
       <Project>{9e700b8c-5536-4bde-af79-f2ab767809a8}</Project>
       <Name>GestaoCondominio.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GestaoCondominio.RegrasNegocio\GestaoCondominio.Servico.csproj">
+      <Project>{C7A9A9DC-3F9D-4271-BA2E-A62295E2AA3F}</Project>
+      <Name>GestaoCondominio.Servico</Name>
     </ProjectReference>
     <ProjectReference Include="..\GestaoCondominio.Repositorio\GestaoCondominio.Repositorio.csproj">
       <Project>{5b86df92-7327-45fa-9a7a-c6f12ec7e2c7}</Project>

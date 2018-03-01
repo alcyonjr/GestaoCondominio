@@ -38,40 +38,31 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">Morador</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li>
-                        <a data-toggle="modal" data-target="#modalCadastroMorador">
-                            <i class="fa fa-plus-circle"></i>
-                            <p class="hidden-lg hidden-md">Cadastrar Morador</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <i class="fa fa-search"></i>
-                            <p class="hidden-lg hidden-md">Search</p>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#">
-                            <p>Sair <i class="fa fa-sign-out" aria-hidden="true"></i></p>
-                        </a>
-                    </li>
-                    <li class="separator hidden-lg"></li>
-                </ul>
-            </div>
+            </div>           
         </div>
     </nav>
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                        <input type="text" class="form-control" placeholder="Digite o nome do morador" ng-model="searchMorador">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" ng-click="abrirModal()" class="btn btn-info btn-fill btn-block">Novo</button>
+                            </div>
+                        </div>
+
+                    </form>                  
                     <div class="card">
                         <div class="header">
-                            <h4 class="title">Moradores</h4>
                             <p class="category">Listagem de todos os moradores</p>
                         </div>
                         <div class="content table-responsive table-full-width">
@@ -82,19 +73,31 @@
                                 <th>Data de Nascimento</th>
                                 <th>Telefone</th>
                                 <th>E-mail</th>
+                                <th>Apartamento</th>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="morador in moradores">
+                                    <tr ng-show="aguardandoLista">
+                                        <td colspan="3">
+                                            <div class="text-center"><i class="fa fa-spinner fa-pulse fa-fw" ng-show="carregando"></i>  Carregando </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="moradores.lenght <= 0 && !aguardandoLista">
+                                        <td colspan="3">
+                                            <div class="text-center"> Nenhum apartamento cadastrado. </div>
+                                        </td>
+                                    </tr>
+                                    <tr ng-repeat="morador in moradores | filter:searchMorador" ng-show="!aguardandoLista">
                                         <td>{{morador.nome}}</td>
                                         <td>{{morador.cpf}}</td>
                                         <td>{{morador.dataNascimento | date:'dd/MM/yyyy'}}</td>
                                         <td>{{morador.telefone}}</td>
                                         <td>{{morador.email}}</td>
+                                        <td>{{morador.apartamento.nome}}</td>
                                         <td class="td-actions text-right">
-                                            <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
+                                            <button type="button" rel="tooltip" title="Editar Morador" class="btn btn-info btn-simple btn-xs" ng-click="atualizarSelecionado(morador)">
                                                 <i class="fa fa-edit"></i>
                                             </button>
-                                            <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs" ng-click="excluirSelecionado(morador)">
+                                            <button type="button" rel="tooltip" title="Remover Morador" class="btn btn-danger btn-simple btn-xs" ng-click="excluirSelecionado(morador)">
                                                 <i class="fa fa-times"></i>
                                             </button>
                                         </td></td>
@@ -108,80 +111,165 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modalCadastroMorador" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="card">
-                    <div class="header">
-                        <h4 class="title">Cadastro Morador</h4>
+<script type="text/ng-template" id="morador.modal.cadastro.html">
+    <div class="modal-body">
+        <div class="card">
+            <div class="content">
+                <form name="formCadastroMorador" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.nome.$invalid && !formCadastroMorador.nome.$pristine }">
+                                <label>Nome Completo</label>
+                                <input type="text" name="nome" class="form-control" placeholder="Digite seu nome completo" ng-model="novoMorador.nome" required>
+                                <p ng-show="formCadastroMorador.nome.$invalid && !formCadastroMorador.nome.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="content">
-                        <form name="formCadastroMorador" novalidate>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Nome Completo</label>
-                                        <input type="text" class="form-control" placeholder="Digite seu nome completo" ng-model="novoMorador.nome" required>
-                                    </div>
-                                </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.dtnascimento.$invalid && !formCadastroMorador.dtnascimento.$pristine }">
+                                <label>Data de Nascimento</label>
+                                <input type="date" name="dtnascimento" class="form-control" placeholder="Digite a data de seu nascimento" ng-model="novoMorador.dataNascimento" required>
+                                <p ng-show="formCadastroMorador.dtnascimento.$invalid && !formCadastroMorador.dtnascimento.$pristine" class="help-block">Campo obrigatório.</p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Data de Nascimento</label>
-                                        <input type="date" class="form-control" placeholder="Digite a data de seu nascimento" ng-model="novoMorador.dataNascimento" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Telefone</label>
-                                        <input type="number" class="form-control" placeholder="Digite o número de seu telefone" ng-model="novoMorador.telefone" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>CPF</label>
-                                        <input type="number" s class="form-control" placeholder="Digite o número de seu CPF" ng-model="novoMorador.cpf" required>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.telefone.$invalid && !formCadastroMorador.telefone.$pristine }">
+                                <label>Telefone</label>
+                                <input type="number" name="telefone" class="form-control" placeholder="Digite o número de seu telefone" ng-model="novoMorador.telefone" required>
+                                <p ng-show="formCadastroMorador.telefone.$invalid && !formCadastroMorador.telefone.$pristine" class="help-block">Campo obrigatório.</p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>E-mail</label>
-                                        <input type="email" class="form-control" placeholder="Digite seu e-mail" ng-model="novoMorador.email" required>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.cpf.$invalid && !formCadastroMorador.cpf.$pristine }">
+                                <label>CPF</label>
+                                <input type="number" name="cpf" class="form-control" placeholder="Digite o número de seu CPF" ng-model="novoMorador.cpf" required>
+                                <p ng-show="formCadastroMorador.cpf.$invalid && !formCadastroMorador.cpf.$pristine" class="help-block">Campo obrigatório.</p>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">                                        
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" ng-model="novoMorador.responsavel">  responsável pelo apartamento
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Apartamento</label>
-                                        <select multiple class="form-control" ng-options="apartamento.nome for apartamento in apartamentos" ng-model="apartamentoSeleciondo">
-                                            <option value="" disabled selected>Selecione um apartamento</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                        </form>
+                        </div>
                     </div>
-                </div>
-                <button type="submit" class="btn btn-info btn-fill btn-block" ng-click="cadastrar()" ng-disabled="formCadastroMorador.$invalid">Cadastrar</button>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.email.$invalid && !formCadastroMorador.email.$pristine }">
+                                <label>E-mail</label>
+                                <input type="email" name="email" class="form-control" placeholder="Digite seu e-mail" ng-model="novoMorador.email" required>
+                                <p ng-show="formCadastroMorador.email.$invalid && !formCadastroMorador.email.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div>
+                                    <label>
+                                        <input type="checkbox" ng-model="novoMorador.responsavel">  responsável pelo apartamento
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.apartamento.$invalid && !formCadastroMorador.apartamento.$pristine }">
+                                <label>Apartamento</label>
+                                <select name="apartamento" class="form-control" ng-options="apartamento.nome for apartamento in apartamentos" ng-model="novoMorador.apartamento">
+                                    <option value="" disabled selected>Selecione um apartamento</option>
+                                </select>
+                                <p ng-show="formCadastroMorador.apartamento.$invalid && !formCadastroMorador.apartamento.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-fill" ng-click="fecharModal()" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info btn-fill" ng-click="cadastrar()" ng-disabled="formCadastroMorador.$invalid">
+                <span ng-show="carregando"><i class="fa fa-spinner fa-pulse fa-fw"></i>  Carregando </span>
+                <span ng-show="!carregando">Cadastrar</span>
+            </button>
+        </div>
     </div>
-</div>
+</script>
+<script type="text/ng-template" id="morador.modal.editar.html">
+    <div class="modal-body">
+        <div class="card">
+            <div class="content">
+                <form name="formCadastroMorador" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.nome.$invalid && !formCadastroMorador.nome.$pristine }">
+                                <label>Nome Completo</label>
+                                <input type="text" name="nome" class="form-control" placeholder="Digite seu nome completo" ng-model="edicaoMorador.nome" required>
+                                <p ng-show="formCadastroMorador.nome.$invalid && !formCadastroMorador.nome.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.dtnascimento.$invalid && !formCadastroMorador.dtnascimento.$pristine }">
+                                <label>Data de Nascimento</label>
+                                <input type="date" name="dtnascimento" class="form-control" placeholder="Digite a data de seu nascimento" ng-model="edicaoMorador.dataNascimento" required>
+                                <p ng-show="formCadastroMorador.dtnascimento.$invalid && !formCadastroMorador.dtnascimento.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.telefone.$invalid && !formCadastroMorador.telefone.$pristine }">
+                                <label>Telefone</label>
+                                <input type="number" name="telefone" class="form-control" placeholder="Digite o número de seu telefone" ng-model="edicaoMorador.telefone" required>
+                                <p ng-show="formCadastroMorador.telefone.$invalid && !formCadastroMorador.telefone.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.cpf.$invalid && !formCadastroMorador.cpf.$pristine }">
+                                <label>CPF</label>
+                                <input type="number" name="cpf" class="form-control" placeholder="Digite o número de seu CPF" ng-model="edicaoMorador.cpf" required>
+                                <p ng-show="formCadastroMorador.cpf.$invalid && !formCadastroMorador.cpf.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.email.$invalid && !formCadastroMorador.email.$pristine }">
+                                <label>E-mail</label>
+                                <input type="email" name="email" class="form-control" placeholder="Digite seu e-mail" ng-model="edicaoMorador.email" required>
+                                <p ng-show="formCadastroMorador.email.$invalid && !formCadastroMorador.email.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div>
+                                    <label>
+                                        <input type="checkbox" ng-model="edicaoMorador.responsavel" ng-checked="edicaoMorador.responsavel">  responsável pelo apartamento
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" ng-class="{ 'has-error' : formCadastroMorador.apartamento.$invalid && !formCadastroMorador.apartamento.$pristine }">
+                                <label>Apartamento</label>
+                                <select name="apartamento" class="form-control" ng-options="apartamento.nome for apartamento in apartamentos" ng-model="edicaoMorador.apartamento" selected="edicaoMorador.apartamento.id">
+                                    <option value="" disabled selected>Selecione um apartamento</option>
+                                </select>
+                                <p ng-show="formCadastroMorador.apartamento.$invalid && !formCadastroMorador.apartamento.$pristine" class="help-block">Campo obrigatório.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default btn-fill" ng-click="fecharModal()" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-info btn-fill" ng-click="atualizar()" ng-disabled="formCadastroMorador.$invalid">
+                <span ng-show="carregando"><i class="fa fa-spinner fa-pulse fa-fw"></i>  Carregando </span>
+                <span ng-show="!carregando">Cadastrar</span>
+            </button>
+        </div>
+    </div>
+</script>
